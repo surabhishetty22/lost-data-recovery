@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recovery Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-image: url("https://th.bing.com/th/id/OIP.GZLdD36nP0d-lboU0g9MgwHaEK?rs=1&pid=ImgDetMain");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: black;
+      }
+      h1 {
+        margin-bottom: 20px;
+      }
+      form {
+        display: inline-block;
+        text-align: left;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+      }
+      input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #007bff;
+        border: none;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+      a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Recovery Form</h1>
+    <form action="{{ url_for('recover_file') }}" method="POST">
+      <label for="backup_file">Backup File:</label>
+      <input type="text" id="backup_file" name="backup_file" required /><br />
+      <label for="recovery_dir">Recovery Directory:</label>
+      <input type="text" id="recovery_dir" name="recovery_dir" required /><br />
+      <label for="original_filename">Original Filename:</label>
+      <input
+        type="text"
+        id="original_filename"
+        name="original_filename"
+        required
+      /><br />
+      <input type="submit" value="Recover" />
+    </form>
+    <p><a href="{{ url_for('index') }}">Back to Home</a></p>
+  </body>
+</html>

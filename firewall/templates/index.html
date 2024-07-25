@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>File Monitor</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-image: url('http://wallpapercave.com/wp/hdIATx8.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: white; /* Change font color to white */
+      }
+      .alert {
+        color: black; /* Keep alert messages in black for readability */
+      }
+      
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>File Monitor</h1>
+      <!-- Display flash messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="alert alert-dismissible fade show">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %}
+      <!-- Monitor Directory Form -->
+      <form id="monitorForm" action="/start_monitor" method="post" class="mb-4">
+        <div class="form-group">
+          <label for="monitor_path">Directory to Monitor</label>
+          <input
+            type="text"
+            class="form-control"
+            id="monitor_path"
+            name="monitor_path"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Start Monitoring</button>
+      </form>
+      <!-- Live updates -->
+      <div id="liveUpdates"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script>
+      var socket = io();
+
+      // Receive updates from server
+      socket.on("file_modified", function (data) {
+        var updateElement = document.createElement("p");
+        updateElement.textContent = "File modified: " + data.path;
+        document.getElementById("liveUpdates").appendChild(updateElement);
+      });
+    </script>
+  </body>
+</html>

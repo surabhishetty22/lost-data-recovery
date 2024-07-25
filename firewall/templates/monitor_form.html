@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Monitor Form</h1>
+        <!-- Display flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="alert alert-dismissible fade show">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <!-- Monitor Directory Form -->
+        <form id="monitorForm" action="/start_monitor" method="post">
+            <div class="form-group">
+                <label for="monitor_path">Directory to Monitor</label>
+                <input type="text" class="form-control" id="monitor_path" name="monitor_path" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Start Monitoring</button>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+        // Receive updates from server
+        socket.on("file_modified", function (data) {
+            var updateElement = document.createElement("p");
+            updateElement.textContent = "File modified: " + data.path;
+            document.body.appendChild(updateElement);
+
+            // Show alert message when file is modified
+            alert("File modified: " + data.path);
+        });
+    </script>
+</body>
+</html>
